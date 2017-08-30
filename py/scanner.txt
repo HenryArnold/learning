@@ -1,0 +1,55 @@
+"""fake code: port scanner"""
+
+#code : UTF-8
+import optparse
+import socket
+
+//try connect to target, send and recv message in order to 
+judge whether the port is open 
+function connScan(tgtHost,tgtPort)
+	try
+		connSkt = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+		connSkt.connect((tgtHost,tgtPort))
+		connSkt.send('ViolentPython\r\n')
+		results = connSkt.recv(100)
+		print('[+]%d/tcp open' %tgtPort)
+		print('[+]'+str(results))
+		connSkt.close()
+	except
+		print('[-]%d/tcp closed' %tgtPort)
+		
+//scan a number of hosts and ip
+function portScan(tgtHost, tgtPorts)
+	try
+		tgtIP = socket.gethostbyname(tgtHost)
+	except
+		print("[-]Cannot resolve '%s':Unknown host" %tgtHost)
+		return
+	try
+		tgtName = socket.gethostbyaddr(tgtIP)
+		print('\n[+]Scan Result for:' +tgtName[0])
+	except
+		print('\n[+]Scan Reault fot:' +tgtIP)
+	socket.setdefaulttimeout(1)
+	for tgtPort in tgtPorts
+		print('Scanning port'+str(tgtPort))
+		connScan(tgtHost,int(tgtPort))
+		
+function main ()
+	parser = optparse.OptionParser('usage %prog -H <target host> 
+	-p <target port>')
+	parser.add_option('-H, dest='tgtHost',type='string',help='specify 
+	target host')
+	parser.add_option('-p',dest='tgtPort',type='int',help='specify target
+port')
+	(options,args) = parser.parse_args()
+	tgtHost = option.tgtHost
+	tgtPort = option.tgtPort
+	if (tgtHost == None)|(tgtPort == None)
+		print(parser.usage)
+		exit(0)
+	esle
+		print(tgtHost)
+		print(tgtPort)
+	
+	

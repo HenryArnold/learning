@@ -1,0 +1,1 @@
+@"c:\users\xiaocai\git\learning\web\project\venv\scripts\python.exe" "c:\users\xiaocai\git\learning\web\project\venv\Scripts\markdown_py" %*

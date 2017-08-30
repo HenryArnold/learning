@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{%- block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='logo.png') }}">
+{%- endblock head %}
+
+{% block page_content %}
+<h1>login page</h1>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{{ wtf.quick_form(form) }}
+<a target=_parent href="/register">register</a>
+{% endblock %}

@@ -1,0 +1,29 @@
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{%- block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='logo.png') }}">
+{%- endblock head %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1> Hi, {{ username }}  </h1>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <div class="panel-body">
+       <p> this is your information
+       </p>
+       <ul class="list-group">
+           <li class="list-group-item">username&emsp;&emsp; {{ username }}</li>
+           <li class="list-group-item">password&emsp;&emsp; {{ password }}</li>
+           <li class="list-group-item">yourEmail&emsp;&emsp;{{ email }}</li>
+       </ul>
+   </div>
+   {{ wtf.quick_form(form2) }}
+   {{ wtf.quick_form(form1) }}
+  </div>
+    <h1>  </h1>
+</div>
+{% endblock %}

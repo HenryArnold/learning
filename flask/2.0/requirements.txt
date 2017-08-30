@@ -1,0 +1,4 @@
+#usage: (vnev) $ pip freeze >requirements.txt
+Flask
+Flask_bootstrap
+SQLAlchemy==
