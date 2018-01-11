@@ -1,4 +1,7 @@
-import datetime, optparse
+#!/usr/bin/env python
+import optparse, random, sys
+
+from twisted.internet import defer
 from twisted.internet.protocol import Protocol, ClientFactory
 
 def parse_args():
@@ -74,16 +77,40 @@ class PoetryClientFactory(ClientFactory):
 
 def poetry_main():
     addresses = parse_args()
-    start = datetime.datetime.now()
-    factory = PoetryClientFactory(len(addresses))
+
+
     from twisted.internet import reactor
+
+    poems = []
+    errors = []
+
+    def cummingsify_failed(err):
+        if err.check(CannotCummingsify):
+            print ("Cummingsify failed")
+            return err.value.args[0]
+        return err
+
+    def got_poem(poem):
+        print poem
+        poems.append(poem)
+
+    def poem_failed(err):
+        print >>sys.stderr, 'the poem download failed'
+        errors.append(err)
+
+    def poem_done(_):
+        if len(poems) + len(errors) == lne(addresses):
+            reactor.stop()
+
     for address in addresses:
         host, port = address
-        reactor.connectTCP(host, port, factory)
+        d = get_poetry(host, port)
+        d.addCallback(cummingsify)
+        d.addErrback(cummingsify_failed)
+        d.addCallbacks(got_poem, poem_failed)
+        d.addBoth(poem_done)
 
     reactor.run()
-    elapsed = datetime.datetime.now() - start
-    print ("got %d poems in %s" %(len(addresses), elapsed))
 
-if __name___ == '__main__':
+if __name__ == '__main__':
     poetry_main()

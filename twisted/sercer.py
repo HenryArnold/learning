@@ -1,10 +1,13 @@
 #!/usr/bin/env python
-import optparse, os
-from twisted.internet.protocol import ServerFactory, Protocol
+import optparse, random, sys
+
+from twisted.internet import defer
+from twisted.internet.protocol import Protocol, ClientFactory
 
 def parse_args():
     usage = """usage: [options] poetry-file"""
     parser = optparse.OptionParser(usage)
+    _, addresses = parser.parse_args()
     help = "the port to listen on. Default to a random available port."
     parser.add_option('--iface', help=help, default='localhost')
     options, args = parser.parse_args()
@@ -36,5 +39,5 @@ def main():
     print("serving %s on %s" %(poetry_file, port.getHost()))
     reactor.run()
 
-if  __name__ == '__main__'
+if  __name__ == '__main__':
     main()
